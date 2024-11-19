@@ -43,13 +43,35 @@ cameraPers.position.x = 3;
 scene.add(cameraPers);
 
 
+//plane
+
+const aO = textureLoader.load("textures/Tiles_053_SD/Tiles_053_ambientOcclusion.png");
+const col = textureLoader.load("textures/Tiles_053_SD/Tiles_053_basecolor.png");
+const height = textureLoader.load("textures/Tiles_053_SD/Tiles_053_height.png");
+const normal = textureLoader.load("textures/Tiles_053_SD/Tiles_053_normal.png");
+const rough = textureLoader.load("textures/Tiles_053_SD/Tiles_053_roughness.png"); 
+
+const planeBoxGeometry = new THREE.BoxGeometry(1000,1000,1);
+const planeBoxMaterial = new THREE.MeshStandardMaterial({
+    aOMap: aO,
+    map: col,
+    displacementMap: height,
+    normalMap: normal,
+    roughnessMap: rough
+});
+const plane = new THREE.Mesh(planeBoxGeometry, planeBoxMaterial);
+
+plane.rotation.x += Math.PI/2;
+
+scene.add(plane);
+
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth,window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(cameraPers, renderer.domElement);
 controls.enableDamping = true;
-controls.minDistance = 1000;
+controls.minDistance = 500;
 controls.maxDistance = 2000;
 
 function animate(){
