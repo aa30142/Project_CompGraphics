@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 const scene = new THREE.Scene();
 
-const cameraPers = new THREE.PerspectiveCamera(65, window.innerWidth/window.innerHeight,45,30000);
+const cameraPers = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight,45,30000);
 
 const textureLoader = new THREE.TextureLoader();
 
@@ -16,8 +16,8 @@ let txLeft = textureLoader.load("textures/Daylight Box_Pieces/Daylight Box_Left.
 let txRight = textureLoader.load("textures/Daylight Box_Pieces/Daylight Box_Right.png");
 let txTop = textureLoader.load("textures/Daylight Box_Pieces/Daylight Box_Top.png");
 
-materialarray.push(new THREE.MeshBasicMaterial({map:txFront,side:THREE.BackSide}));
 materialarray.push(new THREE.MeshBasicMaterial({map:txBack,side:THREE.BackSide}));
+materialarray.push(new THREE.MeshBasicMaterial({map:txFront,side:THREE.BackSide}));
 materialarray.push(new THREE.MeshBasicMaterial({map:txTop,side:THREE.BackSide}));
 materialarray.push(new THREE.MeshBasicMaterial({map:txBottom,side:THREE.BackSide}));
 materialarray.push(new THREE.MeshBasicMaterial({map:txRight,side:THREE.BackSide}));
@@ -49,7 +49,8 @@ document.body.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(cameraPers, renderer.domElement);
 controls.enableDamping = true;
-controls.target = skyBox.position;
+controls.minDistance = 1000;
+controls.maxDistance = 2000;
 
 function animate(){
     renderer.render(scene,cameraPers);
