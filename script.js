@@ -27,7 +27,7 @@ materialarray.push(new THREE.MeshBasicMaterial({map:txLeft,side:THREE.BackSide})
 
 
 
-const skyBoxGeometry = new THREE.BoxGeometry(10000,10000,10000);
+const skyBoxGeometry = new THREE.BoxGeometry(20000,20000,20000);
 
 // const skyBoxMaterial = new THREE.MeshBasicMaterial({
 //     map: texture,
@@ -51,7 +51,7 @@ const height = textureLoader.load("textures/Tiles_053_SD/Tiles_053_height.png");
 const normal = textureLoader.load("textures/Tiles_053_SD/Tiles_053_normal.png");
 const rough = textureLoader.load("textures/Tiles_053_SD/Tiles_053_roughness.png"); 
 
-const planeBoxGeometry = new THREE.BoxGeometry(1000,1000,1);
+const planeBoxGeometry = new THREE.BoxGeometry(4000,4000,1);
 const planeBoxMaterial = new THREE.MeshStandardMaterial({
     aOMap: aO,
     map: col,
@@ -65,6 +65,14 @@ plane.rotation.x += Math.PI/2;
 
 scene.add(plane);
 
+const spotLight = new THREE.DirectionalLight(0xffffff,5);
+spotLight.target = plane;
+spotLight.position.y += 1000;
+scene.add(spotLight);
+
+const spotHelp = new THREE.DirectionalLightHelper(spotLight);
+scene.add(spotHelp);
+
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth,window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -72,7 +80,7 @@ document.body.appendChild(renderer.domElement);
 const controls = new OrbitControls(cameraPers, renderer.domElement);
 controls.enableDamping = true;
 controls.minDistance = 500;
-controls.maxDistance = 2000;
+controls.maxDistance = 3000;
 
 function animate(){
     renderer.render(scene,cameraPers);
