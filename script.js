@@ -53,7 +53,7 @@ const height = textureLoader.load("textures/Tiles_053_SD/Tiles_053_height.png");
 const normal = textureLoader.load("textures/Tiles_053_SD/Tiles_053_normal.png");
 const rough = textureLoader.load("textures/Tiles_053_SD/Tiles_053_roughness.png"); 
 
-const planeBoxGeometry = new THREE.BoxGeometry(10000,10000,1);
+const planeBoxGeometry = new THREE.BoxGeometry(2000,2000,3);
 const planeBoxMaterial = new THREE.MeshStandardMaterial({
     aOMap: aO,
     map: col,
@@ -75,7 +75,7 @@ scene.add(spotLight);
 const spotHelp = new THREE.DirectionalLightHelper(spotLight);
 scene.add(spotHelp);
 
-const cubeGeometry = new THREE.BoxGeometry(200,200,200);
+const cubeGeometry = new THREE.BoxGeometry(20,20,20);
 const cubeMaterial = new THREE.MeshStandardMaterial({
     color: 0xff51cf,
     roughnes: 0,
@@ -84,8 +84,8 @@ const cubeMaterial = new THREE.MeshStandardMaterial({
 })
 
 const cube = new THREE.Mesh(cubeGeometry,cubeMaterial);
-cube.position.y += 200;
-cube.position.x = 3000;
+cube.position.y += 20;
+cube.position.x = 600;
 
 gsap.to(cube.rotation, { duration: 3, y: Math.PI * 2, z: Math.PI*2, ease: "linear", repeat: -1, yoyo: false });
 
@@ -97,8 +97,8 @@ document.body.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(cameraPers, renderer.domElement);
 controls.enableDamping = true;
-controls.minDistance = 500;
-controls.maxDistance = 3000;
+controls.minDistance = 100;
+controls.maxDistance = 6000;
 
 controls.target = cube.position;
 
