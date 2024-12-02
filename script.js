@@ -148,8 +148,8 @@ const SelectObject = (event) =>
 {
     event.preventDefault();
 
-    pointer.x = (event.clientX - window.innerWidth)*2 - 1;
-    pointer.y = -(event.clientY - window.innerHeight)*2 + 1;
+    pointer.x = (event.clientX / window.innerWidth)*2 - 1;
+    pointer.y = -(event.clientY / window.innerHeight)*2 + 1;
 
     console.log("x: " +pointer.x + " y: " + pointer.y);
 
