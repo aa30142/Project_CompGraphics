@@ -75,8 +75,6 @@ plane.rotation.x += Math.PI/2;
 
 plane.name = "plane";
 
-plane.updateMatrixWorld();
-
 scene.add(plane);
 
 const spotLight = new THREE.DirectionalLight(0xffffff,5);
@@ -104,8 +102,6 @@ cube.position.z = 0;
 gsap.to(cube.rotation, { duration: 3, y: Math.PI * 2, z: Math.PI*2, ease: "linear", repeat: -1, yoyo: false });
 cube.name = "cube";
 
-cube.updateMatrixWorld();
-
 scene.add(cube);
 
 
@@ -119,31 +115,26 @@ controls.enableDamping = true;
 controls.minDistance = 100;
 controls.maxDistance = 6000;
 
-controls.target=plane.position;
-// controls.target = cube.position;
 
 const loader = new GLTFLoader(); 
+
 loader.load( 'textures/q2hNA4Kv/gaming_console_4k.gltf', function ( gltf ) 
 {
     const gameConsole = gltf.scene; 
     gameConsole.position.set(600,20,0);
     gameConsole.scale.set(70,70,70);
-    gameConsole.name = "gameConsole";
-    gameConsole.updateMatrixWorld();
+    gameConsole.isGLTF = true;
     scene.add( gameConsole );
+    console.log(gameConsole);
 }, undefined, function ( error ) { console.error( error ); } );
 
 //Raycasting function
 const pointer = new THREE.Vector2();
-const direction = new THREE.Vector3();
-cameraPers.getWorldDirection(direction);
-const raycaster = new THREE.Raycaster(cameraPers.position,direction);
-// raycaster.layers.set(2);
+const raycaster = new THREE.Raycaster();
 
-//Problem: raycasting doesn't detect the objects inside skyBox.
-//New Suggestion: Visualize the raycast for debugging. 
-//Visualized the lines. The arrows appear horizontal instead of going straight from camera to object.
-//Suggestion: Fix arrow direction.
+//Problem: Non-gltf objects can be selected, but gltf objects can't be.
+//Suggestion: Probably has to do something with object hierarchy in gltf.
+//Another suggestion: If gltf doesn't work, consider using object loader (OBJloader).
 const SelectObject = (event) => 
 {
     event.preventDefault();
@@ -155,24 +146,38 @@ const SelectObject = (event) =>
 
     raycaster.setFromCamera(pointer,cameraPers);
 
-    const arrowHelper = new THREE.ArrowHelper(raycaster.ray.direction,cameraPers.position, 30, 0x00ffff);
-    scene.add(arrowHelper);
+    //Fixed don't need this anymore.
+    // const arrowHelper = new THREE.ArrowHelper(raycaster.ray.direction,cameraPers.position, 70, 0x00ffff);
+    // scene.add(arrowHelper);
+    
     const intersects = raycaster.intersectObjects(scene.children, true);
     const filteredintersects = intersects.filter(intersect => !intersect.object.ignoreRaycast);
-    console.log(filteredintersects);
 
-    console.log("camera position x: " + cameraPers.position.x + " camera position y: " + cameraPers.position.y+" camera position z: " + cameraPers.position.z);
-    console.log("camera rotation x: " + cameraPers.rotation.x + " camera rotation y: " + cameraPers.rotation.y + " camera rotation z: " + cameraPers.rotation.z);
+    console.log(filteredintersects);
 
     if(filteredintersects.length > 0)
     {
-        const target = filteredintersects[0].object;
-        console.log(target.name);
+        if(filteredintersects[0].object.parent.isGLTF)
+        {
+            const target = filteredintersects[0].object.parent;
+            console.log(target.name);
+            controls.target = target.position;
+            controls.update();    
+        }
+        else
+        {
+            const target = filteredintersects[0].object;
+            console.log(target.name);
+            controls.target = target.position;
+            controls.update();    
+        }
+            
+        
     }
 }
 window.addEventListener('click', SelectObject);
 
-
+controls.target = cube.position;
 
 function animate(){
     requestAnimationFrame(animate);
