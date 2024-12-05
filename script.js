@@ -75,6 +75,8 @@ plane.rotation.x += Math.PI/2;
 
 plane.name = "plane";
 
+plane.ignoreRaycast = true;
+
 scene.add(plane);
 
 const spotLight = new THREE.DirectionalLight(0xffffff,5);
@@ -132,9 +134,6 @@ loader.load( 'textures/q2hNA4Kv/gaming_console_4k.gltf', function ( gltf )
 const pointer = new THREE.Vector2();
 const raycaster = new THREE.Raycaster();
 
-//Problem: Non-gltf objects can be selected, but gltf objects can't be.
-//Suggestion: Probably has to do something with object hierarchy in gltf.
-//Another suggestion: If gltf doesn't work, consider using object loader (OBJloader).
 const SelectObject = (event) => 
 {
     event.preventDefault();
@@ -162,14 +161,14 @@ const SelectObject = (event) =>
             const target = filteredintersects[0].object.parent;
             console.log(target.name);
             controls.target = target.position;
-            controls.update();    
+            controls.update(); 
         }
         else
         {
             const target = filteredintersects[0].object;
             console.log(target.name);
             controls.target = target.position;
-            controls.update();    
+            controls.update(); 
         }
             
         
