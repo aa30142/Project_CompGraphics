@@ -138,16 +138,17 @@ const SelectObject = (event) =>
 {
     event.preventDefault();
 
-    pointer.x = (event.clientX / window.innerWidth)*2 - 1;
-    pointer.y = -(event.clientY / window.innerHeight)*2 + 1;
+    //Numbers given are for accuracy of the raycast (may need to adjust these values based on aspect ratio or other variables rather than these values).
+    pointer.x = (event.clientX / window.innerWidth)*2 - 1.009;
+    pointer.y = -(event.clientY / window.innerHeight)*2 + 0.938;
 
     console.log("x: " +pointer.x + " y: " + pointer.y);
 
     raycaster.setFromCamera(pointer,cameraPers);
 
     //Fixed don't need this anymore.
-    // const arrowHelper = new THREE.ArrowHelper(raycaster.ray.direction,cameraPers.position, 70, 0x00ffff);
-    // scene.add(arrowHelper);
+    const arrowHelper = new THREE.ArrowHelper(raycaster.ray.direction,cameraPers.position, 70, 0x00ffff);
+    scene.add(arrowHelper);
     
     const intersects = raycaster.intersectObjects(scene.children, true);
     const filteredintersects = intersects.filter(intersect => !intersect.object.ignoreRaycast);
