@@ -140,7 +140,7 @@ const SelectObject = (event) =>
 
     //Numbers given are for accuracy of the raycast (may need to adjust these values based on aspect ratio or other variables rather than these values).
     pointer.x = (event.clientX / window.innerWidth)*2 - 1.008;
-    pointer.y = -(event.clientY / window.innerHeight)*2 + 0.943;
+    pointer.y = -(event.clientY / window.innerHeight)*2 + 1.0178;
 
     console.log("x: " +pointer.x + " y: " + pointer.y);
 
