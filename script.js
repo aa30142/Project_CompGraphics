@@ -82,6 +82,7 @@ scene.add(plane);
 const spotLight = new THREE.DirectionalLight(0xffffff,5);
 spotLight.target = plane;
 spotLight.position.y += 1000;
+spotLight.castShadow = true;
 scene.add(spotLight);
 
 const spotHelp = new THREE.DirectionalLightHelper(spotLight);
@@ -177,6 +178,8 @@ icosahedron.position.y = 50;
 icosahedron.position.x = 0;
 icosahedron.position.z = 0;
 
+icosahedron.receiveShadow = true;
+
 gsap.to(icosahedron.rotation, { duration: 10, y: Math.PI * 2, z: Math.PI*2, ease: "linear", repeat: -1, yoyo: false });
 
 scene.add(icosahedron);
@@ -212,6 +215,8 @@ worldLoader.load('3d_models/Earth.glb', function(gltf){
     earth.position.set(0,200,0);
     earth.scale.set(50,50,50);
     earth.isGLTF = true;
+    gltf.scene.traverse( function( node )  {
+    if ( node.isMesh ) { node.castShadow = true; }});
     scene.add( earth );
     console.log(earth);
     gsap.to(earth.rotation, { duration: 10, y: Math.PI * 2, ease: "power1.inOut", repeat: -1, yoyo: true });
@@ -228,7 +233,9 @@ const raycaster = new THREE.Raycaster();
 // const Height = bodyinfo.height;
 // const Width = bodyinfo.width;
 
+//for enabling shadows
 
+renderer.shadowMap.enabled = true;
 
 const SelectObject = (event) => 
 {
