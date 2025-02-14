@@ -214,7 +214,6 @@ worldLoader.load('3d_models/Earth.glb', function(gltf){
     const earth = gltf.scene; 
     earth.position.set(0,200,0);
     earth.scale.set(50,50,50);
-    earth.isGLTF = true;
     gltf.scene.traverse( function( node )  {
     if ( node.isMesh ) { node.castShadow = true; }});
     scene.add( earth );
@@ -239,11 +238,11 @@ renderer.shadowMap.enabled = true;
 
 const SelectObject = (event) => 
 {
-    event.preventDefault();
+    // event.preventDefault();
 
     //Numbers given are for accuracy of the raycast (may need to adjust these values based on aspect ratio or other variables rather than these values).
-    pointer.x = (event.clientX / window.innerWidth)*2 - 1.008;
-    pointer.y = -(event.clientY /window.innerHeight)*2 + 0.93;
+    pointer.x = (event.clientX / window.innerWidth)*2 - 1;
+    pointer.y = -(event.clientY / window.innerHeight)*2 + 1;
 
     console.log("x: " +pointer.x + " y: " + pointer.y);
 
@@ -279,6 +278,14 @@ const SelectObject = (event) =>
     }
 }
 window.addEventListener('click', SelectObject);
+
+//add new calculations when window is resized for raycast.
+
+window.addEventListener('resize', function(event) {
+    renderer.setSize(this.window.innerWidth,this.window.innerHeight);
+    cameraPers.aspect = this.window.innerWidth/this.window.innerHeight;
+    cameraPers.updateProjectionMatrix();
+});
 
 controls.target = cube.position;
 
