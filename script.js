@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js' 
-import { metalness } from 'three/webgpu';
+import { metalness, TetrahedronGeometry } from 'three/webgpu';
 import gsap from 'gsap';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
@@ -88,25 +88,99 @@ const spotHelp = new THREE.DirectionalLightHelper(spotLight);
 scene.add(spotHelp);
 
 //Warning about MeshStandardMaterial in the web console. Weird.
+//Platonic Solids
 const cubeGeometry = new THREE.BoxGeometry(20,20,20);
 const cubeMaterial = new THREE.MeshStandardMaterial({
-    color: 0xff51cf,
+    color: 0x4d9900,
     roughnes: 0,
     metalness: 0.8,
     fog:1
-})
+});
 
 const cube = new THREE.Mesh(cubeGeometry,cubeMaterial);
 cube.position.y = 20;
-cube.position.x = 0;
-cube.position.z = 0;
+cube.position.x = -100;
+cube.position.z = 100;
 
-gsap.to(cube.rotation, { duration: 3, y: Math.PI * 2, z: Math.PI*2, ease: "linear", repeat: -1, yoyo: false });
+gsap.to(cube.rotation, { duration: 10, y: Math.PI * 2, z: Math.PI*2, ease: "linear", repeat: -1, yoyo: false });
 cube.name = "cube";
 
 scene.add(cube);
 
+const tetrahedGeometry = new THREE.TetrahedronGeometry(20);
+const tetrahedMaterial = new THREE.MeshStandardMaterial({
+    color: 0x9b0000,
+    roughnes: 0,
+    metalness: 0.8,
+    fog:1
+});
 
+const tetrahedron = new THREE.Mesh(tetrahedGeometry, tetrahedMaterial);
+tetrahedron.position.y = 20 ;
+tetrahedron.position.x = 100;
+tetrahedron.position.z = 100;
+
+gsap.to(tetrahedron.rotation, { duration: 10, y: Math.PI * 2, z: Math.PI*2, ease: "linear", repeat: -1, yoyo: false });
+
+scene.add(tetrahedron);
+
+const octahedGeometry = new THREE.OctahedronGeometry(20);
+const octahedMaterial = new THREE.MeshStandardMaterial({
+    color: 0x9c9c9c,
+    roughnes: 0,
+    metalness: 0.8,
+    fog:1
+});
+
+const octahedron = new THREE.Mesh(octahedGeometry, octahedMaterial);
+
+octahedron.position.y = 20;
+octahedron.position.x = 100;
+octahedron.position.z = -100;
+
+gsap.to(octahedron.rotation, { duration: 10, y: Math.PI * 2, z: Math.PI*2, ease: "linear", repeat: -1, yoyo: false });
+
+scene.add(octahedron);
+
+
+const dodecGeometry = new THREE.DodecahedronGeometry(20);
+const dodecMaterial = new THREE.MeshStandardMaterial({
+    color: 0x00a4f2,
+    roughnes: 0,
+    metalness: 0.8,
+    fog:1
+});
+
+const dodecahedron = new THREE.Mesh(dodecGeometry, dodecMaterial);
+
+dodecahedron.position.y = 20;
+dodecahedron.position.x = -100;
+dodecahedron.position.z = -100;
+
+gsap.to(dodecahedron.rotation, { duration: 10, y: Math.PI * 2, z: Math.PI*2, ease: "linear", repeat: -1, yoyo: false });
+
+scene.add(dodecahedron);
+
+//icosahedron
+
+const icosaGeometry = new THREE.IcosahedronGeometry(20);
+const icosaMaterial = new THREE.MeshStandardMaterial({
+    color: 0xfbfb00,
+    roughnes: 0,
+    metalness: 0.8,
+    fog:1
+});
+
+const icosahedron = new THREE.Mesh(icosaGeometry, icosaMaterial);
+
+icosahedron.position.y = 50;
+icosahedron.position.x = 0;
+icosahedron.position.z = 0;
+
+gsap.to(icosahedron.rotation, { duration: 10, y: Math.PI * 2, z: Math.PI*2, ease: "linear", repeat: -1, yoyo: false });
+
+scene.add(icosahedron);
+//----------------------------------------------
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth,window.innerHeight);
@@ -117,10 +191,10 @@ controls.enableDamping = true;
 controls.minDistance = 100;
 controls.maxDistance = 6000;
 
-
+//Gaming console
 const loader = new GLTFLoader(); 
 
-loader.load( 'textures/q2hNA4Kv/gaming_console_4k.gltf', function ( gltf ) 
+loader.load( '3d_models/q2hNA4Kv/gaming_console_4k.gltf', function ( gltf ) 
 {
     const gameConsole = gltf.scene; 
     gameConsole.position.set(600,20,0);
@@ -130,9 +204,31 @@ loader.load( 'textures/q2hNA4Kv/gaming_console_4k.gltf', function ( gltf )
     console.log(gameConsole);
 }, undefined, function ( error ) { console.error( error ); } );
 
+//World object
+const worldLoader = new GLTFLoader();
+
+worldLoader.load('3d_models/Earth.glb', function(gltf){
+    const earth = gltf.scene; 
+    earth.position.set(0,200,0);
+    earth.scale.set(50,50,50);
+    earth.isGLTF = true;
+    scene.add( earth );
+    console.log(earth);
+    gsap.to(earth.rotation, { duration: 10, y: Math.PI * 2, ease: "power1.inOut", repeat: -1, yoyo: true });
+}, undefined, function (error) {console.error(error);});
+
+
+
 //Raycasting function
 const pointer = new THREE.Vector2();
 const raycaster = new THREE.Raycaster();
+
+// const body = document.querySelector("body");
+// const bodyinfo = body.getBoundingClientRect();
+// const Height = bodyinfo.height;
+// const Width = bodyinfo.width;
+
+
 
 const SelectObject = (event) => 
 {
@@ -140,7 +236,7 @@ const SelectObject = (event) =>
 
     //Numbers given are for accuracy of the raycast (may need to adjust these values based on aspect ratio or other variables rather than these values).
     pointer.x = (event.clientX / window.innerWidth)*2 - 1.008;
-    pointer.y = -(event.clientY / window.innerHeight)*2 + 1.0178;
+    pointer.y = -(event.clientY /window.innerHeight)*2 + 0.93;
 
     console.log("x: " +pointer.x + " y: " + pointer.y);
 
