@@ -85,8 +85,8 @@ spotLight.position.y += 1000;
 spotLight.castShadow = true;
 scene.add(spotLight);
 
-const spotHelp = new THREE.DirectionalLightHelper(spotLight);
-scene.add(spotHelp);
+// const spotHelp = new THREE.DirectionalLightHelper(spotLight);
+// scene.add(spotHelp);
 
 //Warning about MeshStandardMaterial in the web console. Weird.
 //Platonic Solids
@@ -212,13 +212,21 @@ const worldLoader = new GLTFLoader();
 
 worldLoader.load('3d_models/Earth.glb', function(gltf){
     const earth = gltf.scene; 
+    
     earth.position.set(0,200,0);
+    
+
     earth.scale.set(50,50,50);
+   
+
+    earth.isEarth = true;
+    earth.name = "earth";
     gltf.scene.traverse( function( node )  {
     if ( node.isMesh ) { node.castShadow = true; }});
+    gsap.to(earth.rotation, { duration: 10, y: Math.PI * 2, ease: "power1.inOut", repeat: -1, yoyo: true });
     scene.add( earth );
     console.log(earth);
-    gsap.to(earth.rotation, { duration: 10, y: Math.PI * 2, ease: "power1.inOut", repeat: -1, yoyo: true });
+    
 }, undefined, function (error) {console.error(error);});
 
 
@@ -262,6 +270,15 @@ const SelectObject = (event) =>
         if(filteredintersects[0].object.parent.isGLTF)
         {
             const target = filteredintersects[0].object.parent;
+            console.log(target.name);
+            controls.target = target.position;
+            controls.update(); 
+        }
+        //To select earth planet properly.
+        //In the condition are names of the meshes of the mesh (called "group1519172617")
+        else if(filteredintersects[0].object.name == "mesh1519172617" || filteredintersects[0].object.name == "mesh1519172617_1")
+        {
+            const target = filteredintersects[0].object.parent.parent;
             console.log(target.name);
             controls.target = target.position;
             controls.update(); 
