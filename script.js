@@ -250,6 +250,9 @@ maleDancer.load('animations/Hip Hop Dancing_male.fbx',
         RoboX.name = "dude";
         RoboX.position.set(-40,20,600);
         RoboX.scale.set(0.5,0.5,0.5);
+        RoboX.traverse(function(node){
+            node.isFBXguy = true;
+        })
         scene.add(RoboX);
         console.log(RoboX);
         mixer = new THREE.AnimationMixer(RoboX);
@@ -267,6 +270,9 @@ femaleDancer.load('animations/Hip Hop Dancing_female.fbx',
         RoboY.name="gal";
         RoboY.position.set(40,20,600);
         RoboY.scale.set(0.5,0.5,0.5);
+        RoboY.traverse(function(node){
+            node.isFBXgal = true;
+        })
         scene.add(RoboY);
         console.log(RoboY);
         mixer1 = new THREE.AnimationMixer(RoboY);
@@ -329,6 +335,20 @@ const SelectObject = (event) =>
         else if(filteredintersects[0].object.isCrazyCar)
         {
             const target = scene.getObjectByName("CrazyCar");
+            console.log(target.name);
+            controls.target = target.position;
+            controls.update();
+        }
+        else if(filteredintersects[0].object.isFBXgal)
+        {
+            const target = scene.getObjectByName("gal");
+            console.log(target.name);
+            controls.target = target.position;
+            controls.update();
+        }
+        else if(filteredintersects[0].object.isFBXguy)
+        {
+            const target = scene.getObjectByName("dude");
             console.log(target.name);
             controls.target = target.position;
             controls.update();
