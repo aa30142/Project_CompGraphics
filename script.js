@@ -242,6 +242,23 @@ carLoader.load('3d_models/Car FBX.fbx',
     }
 );
 
+const maleDancer = new FBXLoader();
+var mixer = new THREE.AnimationMixer();
+
+maleDancer.load('animations/Hip Hop Dancing_male.fbx',
+    (RoboX) => {
+        RoboX.name = "dude";
+        RoboX.position.set(0,20,600);
+        RoboX.scale.set(0.5,0.5,0.5);
+        scene.add(RoboX);
+        console.log(RoboX);
+        mixer = new THREE.AnimationMixer(RoboX);
+        console.log(RoboX.animations)
+        const animation = mixer.clipAction(RoboX.animations[0]);
+        animation.play();
+    }
+);
+
 //for enabling shadows
 
 renderer.shadowMap.enabled = true;
@@ -321,8 +338,14 @@ window.addEventListener('resize', function(event) {
 
 controls.target = cube.position;
 
+const clock = new THREE.Clock();
+
 function animate(){
     requestAnimationFrame(animate);
+    const deltaTime = clock.getDelta();
+    if (mixer) {
+        mixer.update(deltaTime);
+    }
     controls.update();
     renderer.render(scene,cameraPers);
     
