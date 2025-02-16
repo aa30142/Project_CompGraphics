@@ -248,7 +248,7 @@ var mixer = new THREE.AnimationMixer();
 maleDancer.load('animations/Hip Hop Dancing_male.fbx',
     (RoboX) => {
         RoboX.name = "dude";
-        RoboX.position.set(0,20,600);
+        RoboX.position.set(-40,20,600);
         RoboX.scale.set(0.5,0.5,0.5);
         scene.add(RoboX);
         console.log(RoboX);
@@ -256,6 +256,24 @@ maleDancer.load('animations/Hip Hop Dancing_male.fbx',
         console.log(RoboX.animations)
         const animation = mixer.clipAction(RoboX.animations[0]);
         animation.play();
+    }
+);
+
+const femaleDancer = new FBXLoader();
+var mixer1 = new THREE.AnimationMixer();
+
+femaleDancer.load('animations/Hip Hop Dancing_female.fbx',
+    (RoboY) => {
+        RoboY.name="gal";
+        RoboY.position.set(40,20,600);
+        RoboY.scale.set(0.5,0.5,0.5);
+        scene.add(RoboY);
+        console.log(RoboY);
+        mixer1 = new THREE.AnimationMixer(RoboY);
+        console.log(RoboY.animations);
+        const animation1 = mixer1.clipAction(RoboY.animations[0]);
+        animation1.play();
+        console.log(mixer1);
     }
 );
 
@@ -340,13 +358,16 @@ controls.target = cube.position;
 
 const clock = new THREE.Clock();
 
+
+
 function animate(){
     requestAnimationFrame(animate);
     const deltaTime = clock.getDelta();
-    if (mixer) {
+    //maledancer && femaledancer update
+    if (mixer && mixer1) {
         mixer.update(deltaTime);
+        mixer1.update(deltaTime);
     }
-    controls.update();
     renderer.render(scene,cameraPers);
     
 }
