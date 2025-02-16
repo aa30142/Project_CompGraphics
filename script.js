@@ -3,6 +3,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { metalness, TetrahedronGeometry } from 'three/webgpu';
 import gsap from 'gsap';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { FBXLoader } from 'three/examples/jsm/Addons.js';
 
 const scene = new THREE.Scene();
 
@@ -202,7 +203,7 @@ loader.load( '3d_models/q2hNA4Kv/gaming_console_4k.gltf', function ( gltf )
     const gameConsole = gltf.scene; 
     gameConsole.position.set(600,20,0);
     gameConsole.scale.set(70,70,70);
-    gameConsole.isGLTF = true;
+    gameConsole.isParent = true;
     scene.add( gameConsole );
     console.log(gameConsole);
 }, undefined, function ( error ) { console.error( error ); } );
@@ -212,13 +213,8 @@ const worldLoader = new GLTFLoader();
 
 worldLoader.load('3d_models/Earth.glb', function(gltf){
     const earth = gltf.scene; 
-    
     earth.position.set(0,200,0);
-    
-
     earth.scale.set(50,50,50);
-   
-
     earth.isEarth = true;
     earth.name = "earth";
     gltf.scene.traverse( function( node )  {
@@ -229,20 +225,32 @@ worldLoader.load('3d_models/Earth.glb', function(gltf){
     
 }, undefined, function (error) {console.error(error);});
 
+const carLoader = new FBXLoader();
 
-
-//Raycasting function
-const pointer = new THREE.Vector2();
-const raycaster = new THREE.Raycaster();
-
-// const body = document.querySelector("body");
-// const bodyinfo = body.getBoundingClientRect();
-// const Height = bodyinfo.height;
-// const Width = bodyinfo.width;
+carLoader.load('3d_models/Car FBX.fbx',
+    (car) => {
+        car.name = "CrazyCar";
+        car.position.set(-600,20,0);
+        car.scale.set(0.5,0.5,0.5);
+        const plane = car.getObjectByName("Plane");
+        car.remove(plane);
+        car.traverse(function(node) {
+            node.isCrazyCar = true;
+        })
+        scene.add(car);
+        console.log(car);
+    }
+);
 
 //for enabling shadows
 
 renderer.shadowMap.enabled = true;
+
+
+const pointer = new THREE.Vector2();
+const raycaster = new THREE.Raycaster();
+
+//Raycasting function
 
 const SelectObject = (event) => 
 {
@@ -257,8 +265,8 @@ const SelectObject = (event) =>
     raycaster.setFromCamera(pointer,cameraPers);
 
     //Fixed don't need this anymore.
-    const arrowHelper = new THREE.ArrowHelper(raycaster.ray.direction,cameraPers.position, 70, 0x00ffff);
-    scene.add(arrowHelper);
+    // const arrowHelper = new THREE.ArrowHelper(raycaster.ray.direction,cameraPers.position, 70, 0x00ffff);
+    // scene.add(arrowHelper);
     
     const intersects = raycaster.intersectObjects(scene.children, true);
     const filteredintersects = intersects.filter(intersect => !intersect.object.ignoreRaycast);
@@ -267,7 +275,7 @@ const SelectObject = (event) =>
 
     if(filteredintersects.length > 0)
     {
-        if(filteredintersects[0].object.parent.isGLTF)
+        if(filteredintersects[0].object.parent.isParent)
         {
             const target = filteredintersects[0].object.parent;
             console.log(target.name);
@@ -282,6 +290,13 @@ const SelectObject = (event) =>
             console.log(target.name);
             controls.target = target.position;
             controls.update(); 
+        }
+        else if(filteredintersects[0].object.isCrazyCar)
+        {
+            const target = scene.getObjectByName("CrazyCar");
+            console.log(target.name);
+            controls.target = target.position;
+            controls.update();
         }
         else
         {
