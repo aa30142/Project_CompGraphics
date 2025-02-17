@@ -297,7 +297,6 @@ const SelectObject = (event) =>
 {
     // event.preventDefault();
 
-    //Numbers given are for accuracy of the raycast (may need to adjust these values based on aspect ratio or other variables rather than these values).
     pointer.x = (event.clientX / window.innerWidth)*2 - 1;
     pointer.y = -(event.clientY / window.innerHeight)*2 + 1;
 
@@ -378,7 +377,7 @@ controls.target = cube.position;
 
 const clock = new THREE.Clock();
 
-
+renderer.setSize(this.window.innerWidth,this.window.innerHeight);
 
 function animate(){
     requestAnimationFrame(animate);
