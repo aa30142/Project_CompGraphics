@@ -400,18 +400,39 @@ var maleBoxPosition = new THREE.Vector3();
 const femaleDTextBox = document.getElementById("femaleDancer");
 var femaleBoxPosition = new THREE.Vector3();
 
+const tetraTextBox = document.getElementById("tetrahedron");
+var tetraBoxPosition = new THREE.Vector3();
+
+const cubeTextBox = document.getElementById("cube");
+var cubeBoxPosition = new THREE.Vector3();
+
+const octaTextBox = document.getElementById("octahedron");
+var octaBoxPosition = new THREE.Vector3();
+
+const dodTextBox = document.getElementById("dodecahedron");
+var dodBoxPosition = new THREE.Vector3();
+
+const icoTextBox = document.getElementById("icosahedron");
+var icoBoxPosition = new THREE.Vector3();
+
 function unvisible(){
     carTextBox.style.visibility = "hidden";
     earthTextBox.style.visibility = "hidden";
     consoleTextBox.style.visibility = "hidden";
     maleDTextBox.style.visibility = "hidden";
     femaleDTextBox.style.visibility = "hidden";
+    tetraTextBox.style.visibility = "hidden";
+    cubeTextBox.style.visibility = "hidden";
+    octaTextBox.style.visibility = "hidden";
+    dodTextBox.style.visibility = "hidden";
+    icoTextBox.style.visibility = "hidden";
 }
 
 const car = scene.getObjectByName("CrazyCar");
 
 function animate(){
     unvisible();
+    //Probably could use functions here, but it works. "If it ain't broke, don't fix it."
     if(carAct && controls.target == carAct.position) {
         carBoxPosition.setFromMatrixPosition(carAct.matrix);
         carBoxPosition.project(cameraPers);
@@ -465,6 +486,61 @@ function animate(){
         consoleTextBox.style.top=`${consoleBoxPosition.y}px`;
         consoleTextBox.style.left=`${consoleBoxPosition.x}px`;
         consoleTextBox.style.visibility = `visible`;
+    }
+    if(tetrahedron && controls.target == tetrahedron.position)
+    {
+        tetraBoxPosition.setFromMatrixPosition(tetrahedron.matrix);
+        tetraBoxPosition.project(cameraPers);
+        let rect = canvas.getBoundingClientRect();
+        tetraBoxPosition.x = rect.left + (tetraBoxPosition.x*widthHalf) + widthHalf;
+        tetraBoxPosition.y = rect.top - (tetraBoxPosition.y*heightHalf) + heightHalf;
+        tetraTextBox.style.top=`${tetraBoxPosition.y}px`;
+        tetraTextBox.style.left=`${tetraBoxPosition.x}px`;
+        tetraTextBox.style.visibility = `visible`;
+    }
+    if(cube && controls.target == cube.position)
+    {
+        cubeBoxPosition.setFromMatrixPosition(cube.matrix);
+        cubeBoxPosition.project(cameraPers);
+        let rect = canvas.getBoundingClientRect();
+        cubeBoxPosition.x = rect.left + (cubeBoxPosition.x*widthHalf) + widthHalf;
+        cubeBoxPosition.y = rect.top - (cubeBoxPosition.y*heightHalf) + heightHalf;
+        cubeTextBox.style.top=`${cubeBoxPosition.y}px`;
+        cubeTextBox.style.left=`${cubeBoxPosition.x}px`;
+        cubeTextBox.style.visibility = `visible`;
+    }
+    if(octahedron && controls.target == octahedron.position)
+    {
+        octaBoxPosition.setFromMatrixPosition(octahedron.matrix);
+        octaBoxPosition.project(cameraPers);
+        let rect = canvas.getBoundingClientRect();
+        octaBoxPosition.x = rect.left + (octaBoxPosition.x*widthHalf) + widthHalf;
+        octaBoxPosition.y = rect.top - (octaBoxPosition.y*heightHalf) + heightHalf;
+        octaTextBox.style.top=`${octaBoxPosition.y}px`;
+        octaTextBox.style.left=`${octaBoxPosition.x}px`;
+        octaTextBox.style.visibility = `visible`;
+    }
+    if(dodecahedron && controls.target == dodecahedron.position)
+    {
+        dodBoxPosition.setFromMatrixPosition(dodecahedron.matrix);
+        dodBoxPosition.project(cameraPers);
+        let rect = canvas.getBoundingClientRect();
+        dodBoxPosition.x = rect.left + (dodBoxPosition.x*widthHalf) + widthHalf;
+        dodBoxPosition.y = rect.top - (dodBoxPosition.y*heightHalf) + heightHalf;
+        dodTextBox.style.top=`${dodBoxPosition.y}px`;
+        dodTextBox.style.left=`${dodBoxPosition.x}px`;
+        dodTextBox.style.visibility = `visible`;
+    }
+    if(icosahedron && controls.target == icosahedron.position)
+    {
+        icoBoxPosition.setFromMatrixPosition(icosahedron.matrix);
+        icoBoxPosition.project(cameraPers);
+        let rect = canvas.getBoundingClientRect();
+        icoBoxPosition.x = rect.left + (icoBoxPosition.x*widthHalf) + widthHalf;
+        icoBoxPosition.y = rect.top - (icoBoxPosition.y*heightHalf) + heightHalf;
+        icoTextBox.style.top=`${icoBoxPosition.y}px`;
+        icoTextBox.style.left=`${icoBoxPosition.x}px`;
+        icoTextBox.style.visibility = `visible`;
     }
     // console.log(controls.target.name);
     requestAnimationFrame(animate);
