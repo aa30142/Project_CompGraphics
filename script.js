@@ -13,12 +13,12 @@ const textureLoader = new THREE.TextureLoader();
 
 const materialarray = [];
 
-let txBack = textureLoader.load("/textures/Daylight Box_Pieces/Daylight Box_Back.png");
-let txBottom = textureLoader.load("/textures/Daylight Box_Pieces/Daylight Box_Bottom.png");
-let txFront = textureLoader.load("/textures/Daylight Box_Pieces/Daylight Box_Front.png");
-let txLeft = textureLoader.load("/textures/Daylight Box_Pieces/Daylight Box_Left.png");
-let txRight = textureLoader.load("/textures/Daylight Box_Pieces/Daylight Box_Right.png");
-let txTop = textureLoader.load("/textures/Daylight Box_Pieces/Daylight Box_Top.png");
+let txBack = textureLoader.load("textures/Daylight Box_Pieces/Daylight Box_Back.png");
+let txBottom = textureLoader.load("textures/Daylight Box_Pieces/Daylight Box_Bottom.png");
+let txFront = textureLoader.load("textures/Daylight Box_Pieces/Daylight Box_Front.png");
+let txLeft = textureLoader.load("textures/Daylight Box_Pieces/Daylight Box_Left.png");
+let txRight = textureLoader.load("textures/Daylight Box_Pieces/Daylight Box_Right.png");
+let txTop = textureLoader.load("textures/Daylight Box_Pieces/Daylight Box_Top.png");
 
 materialarray.push(new THREE.MeshBasicMaterial({map:txBack,side:THREE.BackSide}));
 materialarray.push(new THREE.MeshBasicMaterial({map:txFront,side:THREE.BackSide}));
@@ -53,11 +53,11 @@ scene.add(cameraPers);
 
 //plane
 
-const aO = textureLoader.load("/textures/Tiles_053_SD/Tiles_053_ambientOcclusion.png");
-const col = textureLoader.load("/textures/Tiles_053_SD/Tiles_053_basecolor.png");
-const height = textureLoader.load("/textures/Tiles_053_SD/Tiles_053_height.png");
-const normal = textureLoader.load("/textures/Tiles_053_SD/Tiles_053_normal.png");
-const rough = textureLoader.load("/textures/Tiles_053_SD/Tiles_053_roughness.png"); 
+const aO = textureLoader.load("textures/Tiles_053_SD/Tiles_053_ambientOcclusion.png");
+const col = textureLoader.load("textures/Tiles_053_SD/Tiles_053_basecolor.png");
+const height = textureLoader.load("textures/Tiles_053_SD/Tiles_053_height.png");
+const normal = textureLoader.load("textures/Tiles_053_SD/Tiles_053_normal.png");
+const rough = textureLoader.load("textures/Tiles_053_SD/Tiles_053_roughness.png"); 
 
 //Warning about MeshStandardMaterial in the web console. Weird.
 const planeBoxGeometry = new THREE.BoxGeometry(2000,2000,3);
