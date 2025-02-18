@@ -1,4 +1,3 @@
 {
-    "build": "node -v && npm -v && npm clean-install && next build",
     "rewrites": [{ "source": "/(.*)", "destination": "/script.js" }]
 }
