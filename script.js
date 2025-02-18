@@ -197,10 +197,10 @@ controls.maxDistance = 6000;
 
 //Gaming console
 const loader = new GLTFLoader(); 
-
+let gameConsole = new THREE.Group();
 loader.load( '3d_models/q2hNA4Kv/gaming_console_4k.gltf', function ( gltf ) 
 {
-    const gameConsole = gltf.scene; 
+    gameConsole = gltf.scene; 
     gameConsole.position.set(600,20,0);
     gameConsole.scale.set(70,70,70);
     gameConsole.isParent = true;
@@ -210,9 +210,9 @@ loader.load( '3d_models/q2hNA4Kv/gaming_console_4k.gltf', function ( gltf )
 
 //World object
 const worldLoader = new GLTFLoader();
-
+let earth = new THREE.Group();
 worldLoader.load('3d_models/Earth.glb', function(gltf){
-    const earth = gltf.scene; 
+    earth = gltf.scene; 
     earth.position.set(0,200,0);
     earth.scale.set(50,50,50);
     earth.isEarth = true;
@@ -226,6 +226,7 @@ worldLoader.load('3d_models/Earth.glb', function(gltf){
 }, undefined, function (error) {console.error(error);});
 
 const carLoader = new FBXLoader();
+let carAct = new THREE.Group();
 carLoader.load('3d_models/Car FBX.fbx',
     (car) => {
         car.name = "CrazyCar";
@@ -238,12 +239,13 @@ carLoader.load('3d_models/Car FBX.fbx',
         })
         scene.add(car);
         console.log(car);
+        carAct = car;
     }
 );
 
 const maleDancer = new FBXLoader();
 var mixer = new THREE.AnimationMixer();
-
+let male = new THREE.Group();
 maleDancer.load('animations/Hip Hop Dancing_male.fbx',
     (RoboX) => {
         RoboX.name = "dude";
@@ -258,11 +260,13 @@ maleDancer.load('animations/Hip Hop Dancing_male.fbx',
         console.log(RoboX.animations)
         const animation = mixer.clipAction(RoboX.animations[0]);
         animation.play();
+        male = RoboX;
     }
 );
 
 const femaleDancer = new FBXLoader();
 var mixer1 = new THREE.AnimationMixer();
+let female = new THREE.Group();
 
 femaleDancer.load('animations/Hip Hop Dancing_female.fbx',
     (RoboY) => {
@@ -279,6 +283,7 @@ femaleDancer.load('animations/Hip Hop Dancing_female.fbx',
         const animation1 = mixer1.clipAction(RoboY.animations[0]);
         animation1.play();
         console.log(mixer1);
+        female = RoboY;
     }
 );
 
@@ -383,11 +388,32 @@ const heightHalf = canvas.height/2;
 const carTextBox = document.getElementById("car");
 var carBoxPosition = new THREE.Vector3();
 
+const earthTextBox = document.getElementById("earth");
+var earthBoxPosition = new THREE.Vector3();
+
+const consoleTextBox = document.getElementById("console");
+var consoleBoxPosition = new THREE.Vector3();
+
+const maleDTextBox = document.getElementById("maleDancer");
+var maleBoxPosition = new THREE.Vector3();
+
+const femaleDTextBox = document.getElementById("femaleDancer");
+var femaleBoxPosition = new THREE.Vector3();
+
+function unvisible(){
+    carTextBox.style.visibility = "hidden";
+    earthTextBox.style.visibility = "hidden";
+    consoleTextBox.style.visibility = "hidden";
+    maleDTextBox.style.visibility = "hidden";
+    femaleDTextBox.style.visibility = "hidden";
+}
+
 const car = scene.getObjectByName("CrazyCar");
 
 function animate(){
-    if(controls.target) {
-        carBoxPosition.setFromMatrixPosition(car.matrix);
+    unvisible();
+    if(carAct && controls.target == carAct.position) {
+        carBoxPosition.setFromMatrixPosition(carAct.matrix);
         carBoxPosition.project(cameraPers);
         let rect = canvas.getBoundingClientRect();
         carBoxPosition.x = rect.left + (carBoxPosition.x*widthHalf) + widthHalf;
@@ -395,6 +421,50 @@ function animate(){
         carTextBox.style.top=`${carBoxPosition.y}px`;
         carTextBox.style.left=`${carBoxPosition.x}px`;
         carTextBox.style.visibility = `visible`;
+    }
+    if(female && controls.target == female.position)
+    {
+        femaleBoxPosition.setFromMatrixPosition(female.matrix);
+        femaleBoxPosition.project(cameraPers);
+        let rect = canvas.getBoundingClientRect();
+        femaleBoxPosition.x = rect.left + (femaleBoxPosition.x*widthHalf) + widthHalf;
+        femaleBoxPosition.y = rect.top - (femaleBoxPosition.y*heightHalf) + heightHalf;
+        femaleDTextBox.style.top=`${femaleBoxPosition.y}px`;
+        femaleDTextBox.style.left=`${femaleBoxPosition.x}px`;
+        femaleDTextBox.style.visibility = `visible`;
+    }
+    if(male && controls.target == male.position)
+    {
+        maleBoxPosition.setFromMatrixPosition(male.matrix);
+        maleBoxPosition.project(cameraPers);
+        let rect = canvas.getBoundingClientRect();
+        maleBoxPosition.x = rect.left + (maleBoxPosition.x*widthHalf) + widthHalf;
+        maleBoxPosition.y = rect.top - (maleBoxPosition.y*heightHalf) + heightHalf;
+        maleDTextBox.style.top=`${maleBoxPosition.y}px`;
+        maleDTextBox.style.left=`${maleBoxPosition.x}px`;
+        maleDTextBox.style.visibility = `visible`;
+    }
+    if(earth && controls.target == earth.position)
+    {
+        earthBoxPosition.setFromMatrixPosition(earth.matrix);
+        earthBoxPosition.project(cameraPers);
+        let rect = canvas.getBoundingClientRect();
+        earthBoxPosition.x = rect.left + (earthBoxPosition.x*widthHalf) + widthHalf;
+        earthBoxPosition.y = rect.top - (earthBoxPosition.y*heightHalf) + heightHalf;
+        earthTextBox.style.top=`${earthBoxPosition.y}px`;
+        earthTextBox.style.left=`${earthBoxPosition.x}px`;
+        earthTextBox.style.visibility = `visible`;
+    }
+    if(gameConsole && controls.target == gameConsole.position)
+    {
+        consoleBoxPosition.setFromMatrixPosition(gameConsole.matrix);
+        consoleBoxPosition.project(cameraPers);
+        let rect = canvas.getBoundingClientRect();
+        consoleBoxPosition.x = rect.left + (consoleBoxPosition.x*widthHalf) + widthHalf;
+        consoleBoxPosition.y = rect.top - (consoleBoxPosition.y*heightHalf) + heightHalf;
+        consoleTextBox.style.top=`${consoleBoxPosition.y}px`;
+        consoleTextBox.style.left=`${consoleBoxPosition.x}px`;
+        consoleTextBox.style.visibility = `visible`;
     }
     // console.log(controls.target.name);
     requestAnimationFrame(animate);
