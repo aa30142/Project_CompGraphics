@@ -226,7 +226,7 @@ worldLoader.load('3d_models/Earth.glb', function(gltf){
 }, undefined, function (error) {console.error(error);});
 
 const carLoader = new FBXLoader();
-
+let car = new THREE.Group();
 carLoader.load('3d_models/Car FBX.fbx',
     (car) => {
         car.name = "CrazyCar";
@@ -377,8 +377,24 @@ controls.target = cube.position;
 
 const clock = new THREE.Clock();
 
+const canvas = renderer.domElement;
+const widthHalf = canvas.width/2;
+const heightHalf = canvas.height/2;
+//car textbox
+const carTextBox = document.getElementById("car");
+var carBoxPosition = new THREE.Vector3();
 
 function animate(){
+    if(car) {
+        carBoxPosition.setFromMatrixPosition(car.matrix);
+        carBoxPosition.project(cameraPers);
+        let rect = canvas.getBoundingClientRect();
+        carBoxPosition.x = rect.left + (carBoxPosition.x*widthHalf) + widthHalf;
+        carBoxPosition.y = rect.top - (carBoxPosition.y*heightHalf) + heightHalf;
+        carTextBox.style.top=`${carBoxPosition.y}px`;
+        carTextBox.style.left=`${carBoxPosition.x}px`;
+        carTextBox.style.visibility = `visible`;
+    }
     requestAnimationFrame(animate);
     const deltaTime = clock.getDelta();
     //maledancer && femaledancer update
