@@ -191,7 +191,7 @@ renderer.setSize(window.innerWidth,window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(cameraPers, renderer.domElement);
-controls.enableDamping = true;
+controls.enableDamping = false;
 controls.minDistance = 100;
 controls.maxDistance = 6000;
 
@@ -248,7 +248,7 @@ var mixer = new THREE.AnimationMixer();
 maleDancer.load('animations/Hip Hop Dancing_male.fbx',
     (RoboX) => {
         RoboX.name = "dude";
-        RoboX.position.set(-40,20,600);
+        RoboX.position.set(-50,20,600);
         RoboX.scale.set(0.5,0.5,0.5);
         RoboX.traverse(function(node){
             node.isFBXguy = true;
@@ -268,7 +268,7 @@ var mixer1 = new THREE.AnimationMixer();
 femaleDancer.load('animations/Hip Hop Dancing_female.fbx',
     (RoboY) => {
         RoboY.name="gal";
-        RoboY.position.set(40,20,600);
+        RoboY.position.set(50,20,600);
         RoboY.scale.set(0.5,0.5,0.5);
         RoboY.traverse(function(node){
             node.isFBXgal = true;
@@ -377,7 +377,6 @@ controls.target = cube.position;
 
 const clock = new THREE.Clock();
 
-renderer.setSize(this.window.innerWidth,this.window.innerHeight);
 
 function animate(){
     requestAnimationFrame(animate);
