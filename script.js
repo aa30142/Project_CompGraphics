@@ -13,12 +13,12 @@ const textureLoader = new THREE.TextureLoader();
 
 const materialarray = [];
 
-let txBack = textureLoader.load("textures/Daylight Box_Pieces/Daylight Box_Back.png");
-let txBottom = textureLoader.load("textures/Daylight Box_Pieces/Daylight Box_Bottom.png");
-let txFront = textureLoader.load("textures/Daylight Box_Pieces/Daylight Box_Front.png");
-let txLeft = textureLoader.load("textures/Daylight Box_Pieces/Daylight Box_Left.png");
-let txRight = textureLoader.load("textures/Daylight Box_Pieces/Daylight Box_Right.png");
-let txTop = textureLoader.load("textures/Daylight Box_Pieces/Daylight Box_Top.png");
+let txBack = textureLoader.load("./textures/Daylight Box_Pieces/Daylight Box_Back.png");
+let txBottom = textureLoader.load("./textures/Daylight Box_Pieces/Daylight Box_Bottom.png");
+let txFront = textureLoader.load("./textures/Daylight Box_Pieces/Daylight Box_Front.png");
+let txLeft = textureLoader.load("./textures/Daylight Box_Pieces/Daylight Box_Left.png");
+let txRight = textureLoader.load("./textures/Daylight Box_Pieces/Daylight Box_Right.png");
+let txTop = textureLoader.load("./textures/Daylight Box_Pieces/Daylight Box_Top.png");
 
 materialarray.push(new THREE.MeshBasicMaterial({map:txBack,side:THREE.BackSide}));
 materialarray.push(new THREE.MeshBasicMaterial({map:txFront,side:THREE.BackSide}));
@@ -53,11 +53,11 @@ scene.add(cameraPers);
 
 //plane
 
-const aO = textureLoader.load("textures/Tiles_053_SD/Tiles_053_ambientOcclusion.png");
-const col = textureLoader.load("textures/Tiles_053_SD/Tiles_053_basecolor.png");
-const height = textureLoader.load("textures/Tiles_053_SD/Tiles_053_height.png");
-const normal = textureLoader.load("textures/Tiles_053_SD/Tiles_053_normal.png");
-const rough = textureLoader.load("textures/Tiles_053_SD/Tiles_053_roughness.png"); 
+const aO = textureLoader.load("./textures/Tiles_053_SD/Tiles_053_ambientOcclusion.png");
+const col = textureLoader.load("./textures/Tiles_053_SD/Tiles_053_basecolor.png");
+const height = textureLoader.load("./textures/Tiles_053_SD/Tiles_053_height.png");
+const normal = textureLoader.load("./textures/Tiles_053_SD/Tiles_053_normal.png");
+const rough = textureLoader.load("./textures/Tiles_053_SD/Tiles_053_roughness.png"); 
 
 //Warning about MeshStandardMaterial in the web console. Weird.
 const planeBoxGeometry = new THREE.BoxGeometry(2000,2000,3);
@@ -198,7 +198,7 @@ controls.maxDistance = 6000;
 //Gaming console
 const loader = new GLTFLoader(); 
 let gameConsole = new THREE.Group();
-loader.load( '3d_models/q2hNA4Kv/gaming_console_4k.gltf', function ( gltf ) 
+loader.load( './3d_models/q2hNA4Kv/gaming_console_4k.gltf', function ( gltf ) 
 {
     gameConsole = gltf.scene; 
     gameConsole.position.set(600,20,0);
@@ -211,7 +211,7 @@ loader.load( '3d_models/q2hNA4Kv/gaming_console_4k.gltf', function ( gltf )
 //World object
 const worldLoader = new GLTFLoader();
 let earth = new THREE.Group();
-worldLoader.load('3d_models/Earth.glb', function(gltf){
+worldLoader.load('./3d_models/Earth.glb', function(gltf){
     earth = gltf.scene; 
     earth.position.set(0,200,0);
     earth.scale.set(50,50,50);
@@ -227,7 +227,7 @@ worldLoader.load('3d_models/Earth.glb', function(gltf){
 
 const carLoader = new FBXLoader();
 let carAct = new THREE.Group();
-carLoader.load('3d_models/Car FBX.fbx',
+carLoader.load('./3d_models/Car FBX.fbx',
     (car) => {
         car.name = "CrazyCar";
         car.position.set(-600,20,0);
@@ -246,7 +246,7 @@ carLoader.load('3d_models/Car FBX.fbx',
 const maleDancer = new FBXLoader();
 var mixer = new THREE.AnimationMixer();
 let male = new THREE.Group();
-maleDancer.load('animations/Hip Hop Dancing_male.fbx',
+maleDancer.load('./animations/Hip Hop Dancing_male.fbx',
     (RoboX) => {
         RoboX.name = "dude";
         RoboX.position.set(-50,20,600);
@@ -268,7 +268,7 @@ const femaleDancer = new FBXLoader();
 var mixer1 = new THREE.AnimationMixer();
 let female = new THREE.Group();
 
-femaleDancer.load('animations/Hip Hop Dancing_female.fbx',
+femaleDancer.load('./animations/Hip Hop Dancing_female.fbx',
     (RoboY) => {
         RoboY.name="gal";
         RoboY.position.set(50,20,600);
