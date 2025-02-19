@@ -1,10 +1,10 @@
 import * as THREE from "three";
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'; 
-import { metalness, TetrahedronGeometry } from 'three/webgpu';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js'; 
 import gsap from 'gsap';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { FBXLoader } from 'three/examples/jsm/Addons.js';
+import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+import { FBXLoader } from 'https://cdn.skypack.dev/three@0.152.0/examples/jsm/loaders/FBXLoader';
 
+//
 const scene = new THREE.Scene();
 
 const cameraPers = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight,45,150000);
