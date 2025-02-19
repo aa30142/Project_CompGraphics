@@ -1,7 +1,7 @@
 import {defineConfig} from 'vite';
 
 export default defineConfig({
-    base: '/CompGraph/',
+    base: '/your-repo-name/',
     build: {
         outDir: 'dist',
         sourcemap: true,
